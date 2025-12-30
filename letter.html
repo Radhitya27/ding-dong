@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Untukmu di Penghujung Tahun</title>
+    <style>
+        *,
+        *::after,
+        *::before {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-color: #0a0e27;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+        }
+
+        .night {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 60px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 50px 50px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 130px 80px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 10px, #fff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            animation: twinkle 5s ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.3; }
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            z-index: 10;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #fff8e7 0%, #ffe6cc 100%);
+            border-radius: 0;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.6);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            overflow: visible;
+        }
+
+        .envelope:hover {
+            transform: scale(1.02);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #ffe6cc 0%, #ffd9b3 100%);
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transform-origin: top center;
+            transition: transform 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 3;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .envelope.opened .envelope-flap {
+            transform: rotateX(180deg);
+        }
+
+        .envelope-seal {
+            position: absolute;
+            top: 180px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border-radius: 50%;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
+            transition: opacity 0.4s ease;
+            border: 3px solid #f4a460;
+        }
+
+        .envelope.opened .envelope-seal {
+            opacity: 0;
+        }
+
+        .letter {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            height: 340px;
+            background: linear-gradient(to bottom, #fffef9 0%, #fefdf5 100%);
+            border-radius: 8px;
+            padding: 45px 35px;
+            box-shadow: 0 6px 30px rgba(0,0,0,0.4);
+            transition: all 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2;
+            overflow-y: auto;
+            border: 1px solid #e6d5b8;
+        }
+
+        .envelope.opened .letter {
+            top: -80px;
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .letter-header {
+            text-align: center;
+            margin-bottom: 35px;
+            color: #d4af37;
+            font-size: 28px;
+            font-weight: bold;
+            border-bottom: 3px solid #d4af37;
+            padding-bottom: 18px;
+            letter-spacing: 3px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .letter-content {
+            color: #2d2d2d;
+            line-height: 2.2;
+            font-size: 17px;
+            text-align: justify;
+        }
+
+        .letter-content p {
+            margin-bottom: 22px;
+            text-indent: 35px;
+        }
+
+        .letter-content p:first-of-type {
+            margin-top: 10px;
+        }
+
+        .letter-signature {
+            margin-top: 45px;
+            text-align: right;
+            font-style: italic;
+            color: #8b7355;
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .instruction {
+            text-align: center;
+            color: #ffd700;
+            margin-top: 30px;
+            font-size: 18px;
+            animation: pulse 2.5s ease-in-out infinite;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+            font-weight: 500;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.97); }
+        }
+
+        .letter::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .letter::-webkit-scrollbar-track {
+            background: #f9f7f0;
+            border-radius: 10px;
+        }
+
+        .letter::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 10px;
+        }
+
+        .letter::-webkit-scrollbar-thumb:hover {
+            background: #b8941f;
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            font-size: 20px;
+            animation: floatStar 6s ease-in infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatStar {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-30vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .letter {
+                padding: 35px 25px;
+            }
+            
+            .letter-header {
+                font-size: 24px;
+            }
+            
+            .letter-content {
+                font-size: 15px;
+            }
+            
+            .envelope {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="night"></div>
+    <div class="stars" id="stars"></div>
+
+    <div class="envelope-wrapper">
+        <div class="envelope" id="envelope" onclick="openEnvelope()">
+            <div class="envelope-flap"></div>
+            <div class="envelope-seal">✨</div>
+            <div class="letter">
+                <div class="letter-header">Untuk Seseorang yang Istimewa</div>
+                <div class="letter-content">
+                    <p>Hai,</p>
+                    <p>Meskipun kita belum lama saling kenal, aku merasa perlu menyampaikan sesuatu di penghujung tahun ini. Ada sesuatu yang berbeda sejak kehadiranmu, sesuatu yang membuatku ingin menulis surat ini.</p>
+                    <p>Dalam waktu singkat kita berkenalan, aku sudah melihat sekilas tentang siapa dirimu. Caramu berbicara, caramu melihat dunia, dan energi yang kamu pancarkan, semuanya meninggalkan kesan yang mendalam. Aku penasaran dan ingin tahu lebih banyak tentangmu.</p>
+                    <p>Mungkin ini terdengar terburu-buru, tapi ada kalanya kita bertemu seseorang yang langsung membuat kita merasa nyaman. Kamu adalah orang seperti itu bagiku. Di akhir tahun yang penuh kejutan ini, bertemu denganmu adalah salah satu hal yang paling berkesan.</p>
+                    <p>Aku tidak tahu apa yang akan terjadi di tahun depan, tapi aku berharap kita bisa terus mengenal satu sama lain. Aku ingin tahu lebih banyak ceritamu, mimpi-mimpimu, dan hal-hal kecil yang membuatmu tersenyum.</p>
+                    <p>Selamat tahun baru. Terima kasih sudah menjadi pertemuan yang tak terduga di akhir tahun ini. Semoga 2026 membawa kebahagiaan untukmu, dan semoga kita bisa menciptakan lebih banyak kenangan bersama.</p>
+                    <div class="letter-signature">~ Dari seseorang yang penasaran dan berharap ✨</div>
+                </div>
+            </div>
+        </div>
+        <div class="instruction" id="instruction">✨ Klik amplop untuk membuka surat ✨</div>
+    </div>
+
+    <script>
+        function createStar() {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            const stars = ['✨', '⭐', '💫', '🌟'];
+            star.innerHTML = stars[Math.floor(Math.random() * stars.length)];
+            star.style.left = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            document.getElementById('stars').appendChild(star);
+
+            setTimeout(() => {
+                star.remove();
+            }, 9000);
+        }
+
+        setInterval(createStar, 1200);
+
+        let isOpened = false;
+        function openEnvelope() {
+            if (!isOpened) {
+                const envelope = document.getElementById('envelope');
+                const instruction = document.getElementById('instruction');
+                envelope.classList.add('opened');
+                instruction.style.opacity = '0';
+                setTimeout(() => {
+                    instruction.style.display = 'none';
+                }, 400);
+                isOpened = true;
+            }
+        }
+    </script>
+</body>
+</html>

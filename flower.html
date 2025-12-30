@@ -10,6 +10,56 @@
 
   <!-- Document Title -->
   <title>FLOWERS</title>
+  
+  <!-- Style tambahan untuk tombol Next -->
+  <style>
+    .next-button-container {
+      position: absolute;
+      bottom: 8vh;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      opacity: 0;
+      animation: fadeInButton 1s 6s forwards;
+    }
+    
+    @keyframes fadeInButton {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+    
+    .next-btn {
+      padding: 15px 50px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      font-family: 'Courier New', Courier, monospace;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    }
+    
+    .next-btn:active {
+      transform: translateY(-1px);
+    }
+  </style>
 </head>
 
 <body class="not-loaded">
@@ -316,6 +366,11 @@
 
   <!-- Title -->
   <h1 class="title"><span id="title"></span></h1>
+  
+  <!-- Tombol Next (TAMBAHAN BARU) -->
+  <div class="next-button-container">
+    <a href="letter.html" class="next-btn">Buka Surat</a>
+  </div>
 </body>
 
 </html>
