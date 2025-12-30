@@ -1,22 +1,25 @@
-// Typing effect untuk judul
-const text = "Untuk Seseorang yang Spesial"; // Ubah sesuai keinginan
-let index = 0;
+onload = () => {
+  const c = setTimeout(() => {
+    document.body.classList.remove("not-loaded");
 
-function typeWriter() {
-    if (index < text.length) {
-        document.getElementById("title").innerHTML += text.charAt(index);
-        index++;
-        setTimeout(typeWriter, 100);
+    const titles = ('ini buat kamu').split('')
+    const titleElement = document.getElementById('title');
+    let index = 0;
+
+    function appendTitle() {
+      if (index < titles.length) {
+        titleElement.innerHTML += titles[index];
+        index++; 
+        setTimeout(appendTitle, 300); // 1000ms delay
+      }
     }
-}
 
-// Panggil setelah halaman load
-setTimeout(typeWriter, 2000);
+    appendTitle();
 
-// Hilangkan class "not-loaded" setelah animasi selesai
-setTimeout(() => {
-    document.body.classList.remove('not-loaded');
-}, 1000);
+    clearTimeout(c);
+  }, 1000);
+};
+
 
 // TAMBAHAN: Music Control
 const bgMusic = document.getElementById('bgMusic');
