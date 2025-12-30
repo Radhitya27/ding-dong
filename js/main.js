@@ -1,51 +1,52 @@
+// Typing effect untuk judul
+const text = "Untuk Seseorang yang Spesial"; // Ubah sesuai keinginan
+let index = 0;
 
-onload = () => {
-  const c = setTimeout(() => {
-    document.body.classList.remove("not-loaded");
-
-    const titles = ('ini buat kamu').split('')
-    const titleElement = document.getElementById('title');
-    let index = 0;
-
-    function appendTitle() {
-      if (index < titles.length) {
-        titleElement.innerHTML += titles[index];
+function typeWriter() {
+    if (index < text.length) {
+        document.getElementById("title").innerHTML += text.charAt(index);
         index++;
-        setTimeout(appendTitle, 300); // 1000ms delay
-      }
+        setTimeout(typeWriter, 100);
     }
+}
 
-    // TAMBAHAN: Music Control
-    const bgMusic = document.getElementById('bgMusic');
-    const musicToggle = document.getElementById('musicToggle');
-    let isMusicPlaying = false;
+// Panggil setelah halaman load
+setTimeout(typeWriter, 2000);
 
-    musicToggle.addEventListener('click', function() {
-        if (isMusicPlaying) {
-            bgMusic.pause();
-            musicToggle.textContent = '🔇';
-            musicToggle.style.background = 'rgba(102, 126, 234, 0.9)';
-        } else {
-            bgMusic.play();
-            musicToggle.textContent = '🔊';
-            musicToggle.style.background = 'rgba(118, 75, 162, 0.9)';
-        }
-        isMusicPlaying = !isMusicPlaying;
-    });
+// Hilangkan class "not-loaded" setelah animasi selesai
+setTimeout(() => {
+    document.body.classList.remove('not-loaded');
+}, 1000);
 
-    // Auto play on first interaction
-    document.addEventListener('click', function autoPlay() {
-        if (!isMusicPlaying) {
-            bgMusic.play();
+// TAMBAHAN: Music Control
+const bgMusic = document.getElementById('bgMusic');
+const musicToggle = document.getElementById('musicToggle');
+let isMusicPlaying = false;
+
+musicToggle.addEventListener('click', function(e) {
+    e.stopPropagation(); // Prevent double trigger
+    if (isMusicPlaying) {
+        bgMusic.pause();
+        musicToggle.textContent = '🔇';
+        musicToggle.style.background = 'rgba(102, 126, 234, 0.9)';
+    } else {
+        bgMusic.play();
+        musicToggle.textContent = '🔊';
+        musicToggle.style.background = 'rgba(118, 75, 162, 0.9)';
+    }
+    isMusicPlaying = !isMusicPlaying;
+});
+
+// Auto play on first interaction
+document.addEventListener('click', function autoPlay() {
+    if (!isMusicPlaying) {
+        bgMusic.play().then(() => {
             musicToggle.textContent = '🔊';
             musicToggle.style.background = 'rgba(118, 75, 162, 0.9)';
             isMusicPlaying = true;
-        }
-        document.removeEventListener('click', autoPlay);
-    }, { once: true });
-
-    appendTitle();
-
-    clearTimeout(c);
-  }, 1000);
-};
+        }).catch(err => {
+            console.log('Autoplay prevented:', err);
+        });
+    }
+    document.removeEventListener('click', autoPlay);
+}, { once: true });
