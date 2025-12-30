@@ -2,26 +2,38 @@ onload = () => {
   const c = setTimeout(() => {
     document.body.classList.remove("not-loaded");
 
-    const titles = ('ini buat kamu').split('')
+    // PERBAIKAN: Cek apakah element ada
     const titleElement = document.getElementById('title');
+    
+    if (!titleElement) {
+      console.error('Element #title tidak ditemukan!');
+      return;
+    }
+
+    // Debug: Cek element sudah ada
+    console.log('Title element found:', titleElement);
+    
+    const titles = 'ini buat kamu'.split('');
     let index = 0;
 
     function appendTitle() {
       if (index < titles.length) {
-        titleElement.textContent += titles[index]; // Ganti innerHTML dengan textContent
-        index++; 
+        if (titles[index] === ' ') {
+          titleElement.textContent += '\u00A0'; // Non-breaking space
+        } else {
+          titleElement.textContent += titles[index];
+        }
+        index++;
         setTimeout(appendTitle, 300);
       }
     }
 
     appendTitle();
-
     clearTimeout(c);
   }, 1000);
 };
 
-
-// TAMBAHAN: Music Control
+// Music Control
 const bgMusic = document.getElementById('bgMusic');
 const musicToggle = document.getElementById('musicToggle');
 let isMusicPlaying = false;
@@ -40,7 +52,6 @@ musicToggle.addEventListener('click', function(e) {
     isMusicPlaying = !isMusicPlaying;
 });
 
-// Auto play music saat halaman load (animasi bunga mulai)
 window.addEventListener('load', function() {
     setTimeout(() => {
         bgMusic.play().then(() => {
@@ -48,7 +59,6 @@ window.addEventListener('load', function() {
             musicToggle.style.background = 'rgba(118, 75, 162, 0.9)';
             isMusicPlaying = true;
         }).catch(err => {
-            // Jika browser block autoplay, play saat user interact
             console.log('Autoplay prevented, waiting for user interaction');
             document.addEventListener('click', function playOnClick() {
                 bgMusic.play().then(() => {
@@ -59,5 +69,5 @@ window.addEventListener('load', function() {
                 document.removeEventListener('click', playOnClick);
             }, { once: true });
         });
-    }, 500); // Delay 0.5 detik setelah halaman load
+    }, 500);
 });
