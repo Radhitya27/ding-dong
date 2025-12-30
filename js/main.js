@@ -8,9 +8,9 @@ onload = () => {
 
     function appendTitle() {
       if (index < titles.length) {
-        titleElement.innerHTML += titles[index];
+        titleElement.textContent += titles[index]; // Ganti innerHTML dengan textContent
         index++; 
-        setTimeout(appendTitle, 300); // 1000ms delay
+        setTimeout(appendTitle, 300);
       }
     }
 
