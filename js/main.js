@@ -24,7 +24,7 @@ const musicToggle = document.getElementById('musicToggle');
 let isMusicPlaying = false;
 
 musicToggle.addEventListener('click', function(e) {
-    e.stopPropagation(); // Prevent double trigger
+    e.stopPropagation();
     if (isMusicPlaying) {
         bgMusic.pause();
         musicToggle.textContent = '🔇';
@@ -37,16 +37,24 @@ musicToggle.addEventListener('click', function(e) {
     isMusicPlaying = !isMusicPlaying;
 });
 
-// Auto play on first interaction
-document.addEventListener('click', function autoPlay() {
-    if (!isMusicPlaying) {
+// Auto play music saat halaman load (animasi bunga mulai)
+window.addEventListener('load', function() {
+    setTimeout(() => {
         bgMusic.play().then(() => {
             musicToggle.textContent = '🔊';
             musicToggle.style.background = 'rgba(118, 75, 162, 0.9)';
             isMusicPlaying = true;
         }).catch(err => {
-            console.log('Autoplay prevented:', err);
+            // Jika browser block autoplay, play saat user interact
+            console.log('Autoplay prevented, waiting for user interaction');
+            document.addEventListener('click', function playOnClick() {
+                bgMusic.play().then(() => {
+                    musicToggle.textContent = '🔊';
+                    musicToggle.style.background = 'rgba(118, 75, 162, 0.9)';
+                    isMusicPlaying = true;
+                }).catch(e => console.log(e));
+                document.removeEventListener('click', playOnClick);
+            }, { once: true });
         });
-    }
-    document.removeEventListener('click', autoPlay);
-}, { once: true });
+    }, 500); // Delay 0.5 detik setelah halaman load
+});

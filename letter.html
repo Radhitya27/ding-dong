@@ -363,16 +363,26 @@
             isMusicPlaying = !isMusicPlaying;
         });
 
-        // Auto play on first interaction
-        document.addEventListener('click', function autoPlay() {
-            if (!isMusicPlaying) {
-                bgMusic.play();
-                musicToggle.textContent = '🔊';
-                musicToggle.style.background = 'rgba(255, 215, 0, 0.9)';
-                isMusicPlaying = true;
-            }
-            document.removeEventListener('click', autoPlay);
-        }, { once: true });
+        // Auto play music saat halaman load
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                bgMusic.play().then(() => {
+                    musicToggle.textContent = '🔊';
+                    musicToggle.style.background = 'rgba(255, 215, 0, 0.9)';
+                    isMusicPlaying = true;
+                }).catch(err => {
+                    console.log('Autoplay prevented, waiting for user interaction');
+                    document.addEventListener('click', function playOnClick() {
+                        bgMusic.play().then(() => {
+                            musicToggle.textContent = '🔊';
+                            musicToggle.style.background = 'rgba(255, 215, 0, 0.9)';
+                            isMusicPlaying = true;
+                        }).catch(e => console.log(e));
+                        document.removeEventListener('click', playOnClick);
+                    }, { once: true });
+                });
+            }, 500);
+        });
         // END TAMBAHAN
 
         let isOpened = false;
